@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 
-app.get("/", (req, res) => res.send("Hello!"));
+app.get("/", (req, res) => res.send("Hello I m devConnect"));
 
 const db = require("./config/keys").mongoURI;
 
