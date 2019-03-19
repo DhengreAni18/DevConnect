@@ -58,7 +58,7 @@ router.post("/login", (req, res) => {
 
         jwt.sign(
           payload,
-          keys.SecretORkey,
+          keys.secretOrKey,
           { expiresIn: 3600 },
           (err, token) => {
             res.json({
@@ -77,8 +77,8 @@ router.post("/login", (req, res) => {
 router.get(
   "/current",
   passport.authenticate("jwt", { session: false }),
-  (res, req) => {
-    res.json({ msg: "Success" });
+  (req, res) => {
+    res.json(req.user);
   }
 );
 module.exports = router;

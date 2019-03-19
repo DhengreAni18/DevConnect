@@ -1,5 +1,5 @@
 module.exports = {
   mongoURI:
     "mongodb+srv://Animesh:7898204006@devconnect-kzqmr.mongodb.net/test?retryWrites=true",
-  SecretORkey: "secret"
+  secretOrKey: "secret"
 };
