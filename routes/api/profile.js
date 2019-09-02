@@ -27,6 +27,23 @@ Profile.findOne({ user : req.user.id})
 });
 
 
+router.get('/all' , (req,res) => {
+    Profile.find()
+    .populate('user' , ['name' , 'avatar'])
+    .then(profiles => {
+        if(!profiles) {
+            errors.noprofile = 'There are no profiles';
+            return rews.status(404).json(errors);
+        }
+
+        res.json(profiles);
+    })
+    .catch(err => res.status(404).json({profile:'There are no profiles'}));
+});
+
+
+
+
 router.get('handle/:handle' , (req,res) => {
      Profile.findOne({handle: req.params.handle})
      .populate('user' , ['name' , 'avatar'])
@@ -54,7 +71,7 @@ router.get('user/:user_id' , (req,res) => {
        res.json(profile);
    })
 
-   .catch(err => res.status(404).json(err));
+   .catch(err => res.status(404).json({profile:'There is no profile for user'}));
 });
 
 
