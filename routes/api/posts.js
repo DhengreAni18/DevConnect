@@ -103,7 +103,7 @@ router.post('/comment/:id' , passport.authenticate('jwt' , {session:false}), (re
     if(!isValid) {
         return res.status(404).json(errors);
     }
-    
+
         Post.findById(req.params.id)
         .then(post => {
             const newComment = {
@@ -116,6 +116,27 @@ router.post('/comment/:id' , passport.authenticate('jwt' , {session:false}), (re
             post.comments.unshift(newComment);
             post.save().then(post => res.json(post));
 
+        })
+        .catch(err => res.status(404).json({commentnotfound: 'No comment found'}));
+    
+});
+
+
+router.delete('/comment/:id/:comment_id' , passport.authenticate('jwt' , {session:false}), (req,res) => {
+    
+        Post.findById(req.params.id)
+        .then(post => {
+            if(post.comments.filter(comment => comment._id.toString() === req.params.comment_id).length === 0) {
+                return res.status(404).json({commentnotexist: 'No comment found'});
+            }
+
+            const removeIndex = post.comments
+            .map(item => item._id.toString())
+            .indexOf(req.params.comment_id);
+
+            post.comments.splice(removeIndex, 1); 
+
+            post.save().then(post => res.json(post));
         })
         .catch(err => res.status(404).json({commentnotfound: 'No comment found'}));
     
